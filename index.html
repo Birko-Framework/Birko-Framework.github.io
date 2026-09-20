@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Birko Framework</title>
+<meta name="description" content="A modular .NET framework for storing data, talking to things, and running work in the background — one store API over 13 backends, 177 library projects, MIT licensed." />
+<link rel="canonical" href="https://birko-framework.github.io/" />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://birko-framework.github.io/" />
+<meta property="og:title" content="Birko Framework" />
+<meta property="og:description" content="A modular .NET framework for storing data, talking to things, and running work in the background. One store API over 13 backends." />
+<meta name="twitter:card" content="summary" />
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563eb'/%3E%3Cpath d='M10 8h6.4a5.1 5.1 0 0 1 1.5 10 5.4 5.4 0 0 1-1.1 10.6H10Zm4 3.4v4.2h2.2a2.1 2.1 0 0 0 0-4.2Zm0 7.4v5h2.6a2.5 2.5 0 0 0 0-5Z' fill='%23fff'/%3E%3C/svg%3E" />
+
+<style>
+/* ──────────────────────────────────────────────────────────────────────────────
+   Design tokens.
+
+   These values are TRANSCRIBED from Birko.DesignTokens/tokens.json — the single
+   source of truth the web CSS and the Avalonia AXAML are both generated from.
+   This page is deliberately self-contained (no build step, no bundler), so the
+   subset it uses is inlined rather than imported. If a token changes upstream,
+   change it here too; nothing regenerates this file.
+   ────────────────────────────────────────────────────────────────────────── */
+:root {
+  --b-color-primary: #2563eb;
+  --b-color-primary-hover: #1d4ed8;
+  --b-color-primary-light: #dbeafe;
+  --b-color-success: #16a34a;
+  --b-color-info: #0891b2;
+
+  --b-bg: #ffffff;
+  --b-bg-secondary: #f8fafc;
+  --b-bg-tertiary: #f1f5f9;
+  --b-bg-elevated: #ffffff;
+
+  --b-text: #0f172a;
+  --b-text-secondary: #475569;
+  --b-text-muted: #94a3b8;
+  --b-text-inverse: #ffffff;
+
+  --b-border: #e2e8f0;
+  --b-border-hover: #cbd5e1;
+
+  --b-overlay-subtle: rgba(0, 0, 0, 0.06);
+
+  --b-code-bg: #0f172a;
+  --b-code-text: #e2e8f0;
+  --b-code-dim: #64748b;
+  --b-code-key: #93c5fd;
+  --b-code-type: #5eead4;
+  --b-code-str: #fca5a5;
+  --b-code-num: #fdba74;
+
+  --b-radius-sm: 0.25rem;
+  --b-radius: 0.375rem;
+  --b-radius-lg: 0.625rem;
+  --b-radius-xl: 1rem;
+  --b-radius-full: 9999px;
+
+  --b-space-xs: 0.25rem;
+  --b-space-sm: 0.5rem;
+  --b-space-md: 0.75rem;
+  --b-space-lg: 1rem;
+  --b-space-xl: 1.5rem;
+  --b-space-2xl: 2rem;
+  --b-space-3xl: 3rem;
+
+  --b-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --b-font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', ui-monospace, Menlo, Consolas, monospace;
+  --b-line-height: 1.5;
+  --b-letter-spacing-caps: 0.03125rem;
+
+  --b-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --b-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --b-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --b-focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.15);
+
+  --b-duration-fast: 150ms;
+  --b-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --b-transition: var(--b-duration-fast) var(--b-ease);
+}
+
+/* Dark theme — values transcribed from tokens.json's themes/dark.css sheet. */
+:root[data-theme="dark"] {
+  --b-color-primary: #3b82f6;
+  --b-color-primary-hover: #60a5fa;
+  --b-color-primary-light: #1e3a5f;
+
+  --b-bg: #0f172a;
+  --b-bg-secondary: #1e293b;
+  --b-bg-tertiary: #334155;
+  --b-bg-elevated: #1e293b;
+
+  --b-text: #f1f5f9;
+  --b-text-secondary: #94a3b8;
+  --b-text-muted: #64748b;
+
+  --b-border: #334155;
+  --b-border-hover: #475569;
+
+  --b-overlay-subtle: rgba(255, 255, 255, 0.04);
+
+  --b-code-bg: #020617;
+
+  --b-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --b-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --b-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --b-focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --b-duration-fast: 0.01ms; --b-transition: 0.01ms linear; }
+  * { animation-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--b-font);
+  font-size: 1rem;
+  line-height: var(--b-line-height);
+  color: var(--b-text);
+  background: var(--b-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--b-color-primary); text-decoration: none; }
+a:hover { color: var(--b-color-primary-hover); text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--b-color-primary); outline-offset: 2px; border-radius: var(--b-radius-sm); }
+
+code, pre { font-family: var(--b-font-mono); }
+
+.wrap { width: 100%; max-width: 68rem; margin: 0 auto; padding: 0 1rem; }
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--b-color-primary); color: var(--b-text-inverse);
+  padding: var(--b-space-md) var(--b-space-lg); border-radius: 0 0 var(--b-radius) 0;
+}
+.skip:focus { left: 0; }
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+header {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--b-bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--b-border);
+}
+.bar { display: flex; align-items: center; gap: var(--b-space-lg); height: 3.75rem; }
+
+.mark { display: flex; align-items: center; gap: var(--b-space-sm); font-weight: 700; color: var(--b-text); font-size: 1.0625rem; letter-spacing: -0.01em; }
+.mark:hover { text-decoration: none; }
+.mark svg { width: 1.625rem; height: 1.625rem; flex: none; }
+.mark span.dim { color: var(--b-text-muted); font-weight: 500; }
+
+nav.top { margin-left: auto; display: flex; align-items: center; gap: var(--b-space-xs); }
+nav.top a {
+  color: var(--b-text-secondary); font-size: 0.9375rem; font-weight: 500;
+  padding: var(--b-space-sm) var(--b-space-md); border-radius: var(--b-radius);
+  transition: background var(--b-transition), color var(--b-transition);
+}
+nav.top a:hover { color: var(--b-text); background: var(--b-overlay-subtle); text-decoration: none; }
+@media (max-width: 47rem) { nav.top a.hide-sm { display: none; } }
+
+.theme-btn {
+  display: inline-grid; place-items: center;
+  width: 2.25rem; height: 2.25rem; margin-left: var(--b-space-xs);
+  background: transparent; color: var(--b-text-secondary);
+  border: 1px solid var(--b-border); border-radius: var(--b-radius);
+  cursor: pointer; transition: all var(--b-transition);
+}
+.theme-btn:hover { color: var(--b-text); border-color: var(--b-border-hover); background: var(--b-overlay-subtle); }
+.theme-btn svg { width: 1.0625rem; height: 1.0625rem; }
+:root[data-theme="dark"] .theme-btn .i-moon { display: none; }
+:root:not([data-theme="dark"]) .theme-btn .i-sun { display: none; }
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+.hero { padding: clamp(3rem, 8vw, 5.5rem) 0 var(--b-space-3xl); position: relative; overflow: hidden; }
+.hero::before {
+  content: ""; position: absolute; inset: -40% 0 auto -10%; height: 34rem; pointer-events: none;
+  background: radial-gradient(60% 55% at 22% 40%, color-mix(in srgb, var(--b-color-primary) 13%, transparent), transparent 70%);
+}
+.hero > * { position: relative; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: var(--b-space-sm);
+  font-size: 0.8125rem; font-weight: 600; letter-spacing: var(--b-letter-spacing-caps);
+  text-transform: uppercase; color: var(--b-color-primary);
+  background: var(--b-color-primary-light); border-radius: var(--b-radius-full);
+  padding: var(--b-space-xs) var(--b-space-md); margin-bottom: var(--b-space-xl);
+}
+:root[data-theme="dark"] .eyebrow { color: #93c5fd; }
+
+h1 {
+  margin: 0 0 var(--b-space-xl); max-width: 22ch;
+  font-size: clamp(2.25rem, 6vw, 3.75rem); line-height: 1.08;
+  letter-spacing: -0.03em; font-weight: 700;
+}
+h1 em { font-style: normal; color: var(--b-color-primary); }
+
+.lede { margin: 0 0 var(--b-space-2xl); max-width: 62ch; font-size: clamp(1.0625rem, 2.2vw, 1.25rem); color: var(--b-text-secondary); }
+.lede strong { color: var(--b-text); font-weight: 600; }
+
+.cta { display: flex; flex-wrap: wrap; gap: var(--b-space-md); margin-bottom: var(--b-space-3xl); }
+.btn {
+  display: inline-flex; align-items: center; gap: var(--b-space-sm);
+  padding: 0.6875rem 1.25rem; border-radius: var(--b-radius-lg);
+  font-size: 0.9375rem; font-weight: 600; border: 1px solid transparent;
+  transition: all var(--b-transition);
+}
+.btn:hover { text-decoration: none; }
+.btn-primary { background: var(--b-color-primary); color: #fff; box-shadow: var(--b-shadow); }
+.btn-primary:hover { background: var(--b-color-primary-hover); color: #fff; box-shadow: var(--b-shadow-lg); transform: translateY(-1px); }
+.btn-ghost { background: var(--b-bg-elevated); color: var(--b-text); border-color: var(--b-border); }
+.btn-ghost:hover { color: var(--b-text); border-color: var(--b-border-hover); background: var(--b-bg-secondary); }
+.btn svg { width: 1.0625rem; height: 1.0625rem; flex: none; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); gap: 1px; background: var(--b-border); border: 1px solid var(--b-border); border-radius: var(--b-radius-lg); overflow: hidden; }
+.stat { background: var(--b-bg); padding: var(--b-space-lg) var(--b-space-xl); }
+.stat b { display: block; font-size: 1.625rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
+.stat span { font-size: 0.8125rem; color: var(--b-text-secondary); }
+
+/* ── Sections ─────────────────────────────────────────────────────────────── */
+section { padding: clamp(3rem, 7vw, 4.75rem) 0; }
+section.alt { background: var(--b-bg-secondary); border-block: 1px solid var(--b-border); }
+
+.kicker { font-size: 0.8125rem; font-weight: 600; letter-spacing: var(--b-letter-spacing-caps); text-transform: uppercase; color: var(--b-color-primary); margin: 0 0 var(--b-space-md); }
+h2 { margin: 0 0 var(--b-space-lg); font-size: clamp(1.625rem, 3.6vw, 2.25rem); line-height: 1.2; letter-spacing: -0.02em; font-weight: 700; }
+h3 { margin: 0 0 var(--b-space-sm); font-size: 1.0625rem; font-weight: 600; }
+.sub { margin: 0 0 var(--b-space-2xl); max-width: 64ch; color: var(--b-text-secondary); font-size: 1.0625rem; }
+.sub:last-child { margin-bottom: 0; }
+
+/* ── Callout ──────────────────────────────────────────────────────────────── */
+.callout {
+  border: 1px solid var(--b-border); border-left: 3px solid var(--b-color-primary);
+  background: var(--b-bg-elevated); border-radius: var(--b-radius-lg);
+  padding: var(--b-space-xl); box-shadow: var(--b-shadow-sm);
+}
+.callout p { margin: 0 0 var(--b-space-md); color: var(--b-text-secondary); }
+.callout p:last-child { margin-bottom: 0; }
+.callout strong { color: var(--b-text); }
+
+/* ── Capability cards ─────────────────────────────────────────────────────── */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--b-space-lg); }
+.card {
+  background: var(--b-bg-elevated); border: 1px solid var(--b-border);
+  border-radius: var(--b-radius-lg); padding: var(--b-space-xl);
+  transition: border-color var(--b-transition), box-shadow var(--b-transition), transform var(--b-transition);
+}
+.card:hover { border-color: var(--b-border-hover); box-shadow: var(--b-shadow); transform: translateY(-2px); }
+.card .ico { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: var(--b-radius); background: var(--b-color-primary-light); color: var(--b-color-primary); margin-bottom: var(--b-space-lg); }
+:root[data-theme="dark"] .card .ico { color: #93c5fd; }
+.card .ico svg { width: 1.1875rem; height: 1.1875rem; }
+.card p { margin: 0; font-size: 0.9375rem; color: var(--b-text-secondary); }
+
+/* ── Code ─────────────────────────────────────────────────────────────────── */
+.code-wrap { border: 1px solid var(--b-border); border-radius: var(--b-radius-lg); overflow: hidden; box-shadow: var(--b-shadow); background: var(--b-code-bg); }
+.tabs { display: flex; gap: var(--b-space-xs); padding: var(--b-space-sm) var(--b-space-sm) 0; background: var(--b-code-bg); border-bottom: 1px solid rgba(255,255,255,0.08); overflow-x: auto; }
+.tab {
+  appearance: none; background: transparent; border: 0; cursor: pointer;
+  color: #94a3b8; font-family: var(--b-font); font-size: 0.875rem; font-weight: 500;
+  padding: var(--b-space-md) var(--b-space-lg); border-radius: var(--b-radius) var(--b-radius) 0 0;
+  border-bottom: 2px solid transparent; white-space: nowrap; transition: color var(--b-transition);
+}
+.tab:hover { color: #e2e8f0; }
+.tab[aria-selected="true"] { color: #fff; border-bottom-color: var(--b-color-primary); background: rgba(255,255,255,0.04); }
+pre { margin: 0; padding: var(--b-space-xl); overflow-x: auto; font-size: 0.875rem; line-height: 1.7; color: var(--b-code-text); }
+pre[hidden] { display: none; }
+.c-key { color: var(--b-code-key); }
+.c-type { color: var(--b-code-type); }
+.c-str { color: var(--b-code-str); }
+.c-num { color: var(--b-code-num); }
+.c-cm { color: var(--b-code-dim); font-style: italic; }
+
+.split { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--b-space-2xl); align-items: start; }
+@media (min-width: 60rem) { .split { grid-template-columns: 22rem minmax(0, 1fr); gap: var(--b-space-3xl); } }
+
+/* ── Backend chips ────────────────────────────────────────────────────────── */
+.chips { display: flex; flex-wrap: wrap; gap: var(--b-space-sm); }
+.chip {
+  display: inline-flex; align-items: center; gap: var(--b-space-sm);
+  padding: 0.4375rem 0.8125rem; font-size: 0.875rem; font-weight: 500;
+  background: var(--b-bg-elevated); border: 1px solid var(--b-border);
+  border-radius: var(--b-radius-full); color: var(--b-text-secondary);
+}
+.chip .dot { width: 0.4375rem; height: 0.4375rem; border-radius: 50%; background: var(--b-color-primary); flex: none; }
+
+/* ── Project map ──────────────────────────────────────────────────────────── */
+.map { display: grid; grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr)); gap: var(--b-space-sm); }
+.area {
+  display: flex; align-items: baseline; gap: var(--b-space-sm);
+  padding: var(--b-space-md) var(--b-space-lg); font-size: 0.875rem;
+  background: var(--b-bg-elevated); border: 1px solid var(--b-border); border-radius: var(--b-radius);
+  position: relative; overflow: hidden;
+}
+.area::before {
+  content: ""; position: absolute; inset: 0 auto 0 0; width: var(--fill, 0%);
+  background: var(--b-color-primary); opacity: 0.08;
+}
+.area .n { position: relative; font-family: var(--b-font-mono); font-weight: 600; color: var(--b-color-primary); min-width: 1.75rem; }
+:root[data-theme="dark"] .area .n { color: #93c5fd; }
+.area .t { position: relative; color: var(--b-text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ── Steps ────────────────────────────────────────────────────────────────── */
+ol.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: var(--b-space-lg); }
+ol.steps li { counter-increment: s; display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: var(--b-space-lg); align-items: start; }
+ol.steps li::before {
+  content: counter(s); display: grid; place-items: center;
+  width: 2rem; height: 2rem; border-radius: var(--b-radius-full);
+  background: var(--b-color-primary-light); color: var(--b-color-primary);
+  font-size: 0.875rem; font-weight: 700;
+}
+:root[data-theme="dark"] ol.steps li::before { color: #93c5fd; }
+ol.steps p { margin: var(--b-space-xs) 0 0; font-size: 0.9375rem; color: var(--b-text-secondary); }
+ol.steps code { background: var(--b-overlay-subtle); padding: 0.1rem 0.35rem; border-radius: var(--b-radius-sm); font-size: 0.875em; }
+
+/* ── Repo list ────────────────────────────────────────────────────────────── */
+.repos { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: var(--b-space-lg); }
+.repo {
+  display: block; background: var(--b-bg-elevated); border: 1px solid var(--b-border);
+  border-radius: var(--b-radius-lg); padding: var(--b-space-xl); color: inherit;
+  transition: all var(--b-transition);
+}
+.repo:hover { text-decoration: none; color: inherit; border-color: var(--b-color-primary); box-shadow: var(--b-shadow); transform: translateY(-2px); }
+.repo .nm { display: flex; align-items: center; gap: var(--b-space-sm); font-family: var(--b-font-mono); font-size: 0.9375rem; font-weight: 600; color: var(--b-color-primary); margin-bottom: var(--b-space-sm); }
+.repo .nm svg { width: 1rem; height: 1rem; flex: none; opacity: 0.6; }
+.repo p { margin: 0; font-size: 0.9375rem; color: var(--b-text-secondary); }
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+footer { border-top: 1px solid var(--b-border); padding: var(--b-space-2xl) 0; background: var(--b-bg-secondary); }
+.foot { display: flex; flex-wrap: wrap; gap: var(--b-space-lg); align-items: center; justify-content: space-between; font-size: 0.875rem; color: var(--b-text-secondary); }
+.foot nav { display: flex; flex-wrap: wrap; gap: var(--b-space-lg); }
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="wrap bar">
+    <a class="mark" href="#top">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor" style="color:var(--b-color-primary)"/><path d="M10 8h6.4a5.1 5.1 0 0 1 1.5 10 5.4 5.4 0 0 1-1.1 10.6H10Zm4 3.4v4.2h2.2a2.1 2.1 0 0 0 0-4.2Zm0 7.4v5h2.6a2.5 2.5 0 0 0 0-5Z" fill="#fff"/></svg>
+      Birko <span class="dim">Framework</span>
+    </a>
+    <nav class="top">
+      <a class="hide-sm" href="#what">What it does</a>
+      <a class="hide-sm" href="#code">Code</a>
+      <a class="hide-sm" href="#projects">Projects</a>
+      <a href="https://github.com/Birko-Framework/Birko.Framework/wiki">Wiki</a>
+      <a href="https://github.com/Birko-Framework">GitHub</a>
+      <button class="theme-btn" type="button" id="theme" aria-label="Switch colour theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+<div id="top" class="hero">
+  <div class="wrap">
+    <span class="eyebrow">.NET 10 · MIT licensed</span>
+    <h1>Store data. Talk to things. Run work in the <em>background</em>.</h1>
+    <p class="lede">
+      Birko is a modular .NET framework for the plumbing you would otherwise rewrite for every
+      project and every backend. <strong>One store API over 13 storage backends</strong> — the same
+      code works whether your data lives in SQLite, PostgreSQL, MongoDB, Elasticsearch or a JSON file.
+    </p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Getting-Started">
+        Get started
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn btn-ghost" href="https://github.com/Birko-Framework/Birko.Framework">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7 0-.7 0-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.7 18 5 18 5c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
+        View source
+      </a>
+      <a class="btn btn-ghost" href="https://birko-framework.github.io/Birko.Web.Playground/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Live component gallery
+      </a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>177</b><span>library projects</span></div>
+      <div class="stat"><b>167</b><span>test projects</span></div>
+      <div class="stat"><b>13</b><span>storage backends</span></div>
+      <div class="stat"><b>5</b><span>SQL providers</span></div>
+      <div class="stat"><b>0</b><span>NuGet packages to install</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── What it gives you ─────────────────────────────────────────────────── -->
+<section id="what">
+  <div class="wrap">
+    <p class="kicker">What it gives you</p>
+    <h2>Pick the pieces you need</h2>
+    <p class="sub">
+      Everything below sits <em>beside</em> the data layer, not on top of it. You can use Birko's
+      REST client without using its stores, and vice versa.
+    </p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/></svg></div>
+        <h3>Save and query objects</h3>
+        <p>One store API over 13 backends — sync and async, with bulk operations and lazy schema init that creates tables and indexes on first use.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v6H4zM4 14h16v6H4z"/><path d="M7 7h.01M7 17h.01"/></svg></div>
+        <h3>Use a real SQL database</h3>
+        <p>Attribute-mapped models across SQL Server, PostgreSQL, MySQL, SQLite and TimescaleDB, with a platform-agnostic migration framework — write once, run anywhere.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg></div>
+        <h3>Call or serve APIs</h3>
+        <p>REST, gRPC, GraphQL, SOAP, WebSocket and SSE — plus Bluetooth, Modbus, NFC, IR and camera adapters for the hardware end.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0-3 3 3 3 0 0 0 0 6 3 3 0 0 0 3 3v1a3 3 0 0 0 6 0v-1a3 3 0 0 0 3-3 3 3 0 0 0 0-6 3 3 0 0 0-3-3V5a3 3 0 0 0-3-3z"/></svg></div>
+        <h3>Talk to an LLM</h3>
+        <p>One interface over Claude, OpenAI, Gemini, Ollama and Azure, with a coding/media/task agent catalogue, orchestration and retry-and-fallback resilience.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>Run jobs and state machines</h3>
+        <p>Background job queues over 8 persistence backends, and a workflow engine with guards, actions and Mermaid/DOT export.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Log people in</h3>
+        <p>PBKDF2 and BCrypt hashing, AES, JWT, OAuth, RBAC, ASP.NET Core integration, HashiCorp Vault and Azure Key Vault.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></div>
+        <h3>Build a web UI</h3>
+        <p>55 Shadow-DOM components with reactive state, a hash router and a three-level app shell. No framework, no build magic.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8"/></svg></div>
+        <h3>Build a desktop app</h3>
+        <p>An Avalonia-first XAML shell with an Avalonia-free MVVM core and four runtime-swappable themes — sharing design tokens byte-for-byte with the web CSS.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── The one idea ──────────────────────────────────────────────────────── -->
+<section class="alt">
+  <div class="wrap">
+    <p class="kicker">The one idea worth understanding first</p>
+    <h2>Shared projects, not packages</h2>
+    <p class="sub">
+      Birko is consumed as source via <code>.projitems</code>. Your project compiles Birko's code
+      together with your own — no binary dependencies, and you can step into framework code in the
+      debugger.
+    </p>
+    <div class="callout">
+      <p>
+        <strong>The consequence that trips everyone up once:</strong> a project pulls in more than
+        you asked for. The graph is dense — asking for SQLite stores also needs models, view-models,
+        patterns, rules and helpers, because they reference each other's types directly.
+      </p>
+      <p>
+        So don't build the import list up one project at a time. Start from
+        <a href="https://github.com/Birko-Framework/Birko.Sandbox">Birko.Sandbox</a>'s list — <strong>38
+        imports</strong>, known to compile, covering stores, SQL, migrations, caching, workflow, jobs,
+        health, REST, GraphQL and security — and delete what you do not use.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Code ──────────────────────────────────────────────────────────────── -->
+<section id="code">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <p class="kicker">In practice</p>
+        <h2>The whole loop</h2>
+        <p class="sub">
+          Declare a model, point a store at a file, and you have CRUD. The table is created
+          automatically on first use — no migration needed to get started.
+        </p>
+        <p class="sub">
+          Every sample on this page is taken from the wiki, where a CI job compiles each snippet
+          against the current framework. The guide cannot quietly stop matching the code.
+        </p>
+      </div>
+
+      <div class="code-wrap">
+        <div class="tabs" role="tablist" aria-label="Code examples">
+          <button class="tab" role="tab" id="t-model" aria-controls="p-model" aria-selected="true">Model</button>
+          <button class="tab" role="tab" id="t-crud" aria-controls="p-crud" aria-selected="false" tabindex="-1">Use it</button>
+          <button class="tab" role="tab" id="t-swap" aria-controls="p-swap" aria-selected="false" tabindex="-1">Swap the backend</button>
+        </div>
+
+<pre id="p-model" role="tabpanel" aria-labelledby="t-model" tabindex="0"><span class="c-key">using</span> Birko.Data.Models;
+<span class="c-key">using</span> Birko.Data.SQL.Attributes;
+
+[<span class="c-type">Table</span>(<span class="c-str">"Products"</span>)]
+<span class="c-key">public class</span> <span class="c-type">Product</span> : <span class="c-type">AbstractDatabaseModel</span>
+{
+    [<span class="c-type">MaxLengthField</span>(<span class="c-num">200</span>)]
+    <span class="c-key">public string</span> Name { <span class="c-key">get</span>; <span class="c-key">set</span>; } = <span class="c-key">string</span>.Empty;
+
+    [<span class="c-type">PrecisionField</span>(<span class="c-num">18</span>), <span class="c-type">ScaleField</span>(<span class="c-num">2</span>)]
+    <span class="c-key">public decimal</span> Price { <span class="c-key">get</span>; <span class="c-key">set</span>; }
+}
+
+<span class="c-cm">// AbstractDatabaseModel gives you a Guid primary key.</span>
+<span class="c-cm">// Precision and scale are separate attributes — use both,</span>
+<span class="c-cm">// or decimals come back as whole numbers.</span></pre>
+
+<pre id="p-crud" role="tabpanel" aria-labelledby="t-crud" tabindex="0" hidden><span class="c-key">using</span> Birko.Data.SQL.SqLite.Stores;
+
+<span class="c-key">var</span> store = <span class="c-key">new</span> <span class="c-type">SQLiteStore</span>&lt;<span class="c-type">Product</span>&gt;();
+store.SetSettings(<span class="c-key">new</span> <span class="c-type">SqLiteSettings</span>(<span class="c-str">@"C:\data"</span>, <span class="c-str">"shop.db"</span>));
+
+<span class="c-cm">// create</span>
+<span class="c-key">var</span> id = store.Create(<span class="c-key">new</span> <span class="c-type">Product</span> { Name = <span class="c-str">"Widget"</span>, Price = <span class="c-num">9.99m</span> });
+
+<span class="c-cm">// read one</span>
+<span class="c-key">var</span> product = store.Read(id);
+
+<span class="c-cm">// query — filter, orderBy, limit, offset</span>
+<span class="c-key">var</span> cheap = store.Read(x =&gt; x.Price &lt; <span class="c-num">10m</span>, <span class="c-key">null</span>, <span class="c-key">null</span>, <span class="c-key">null</span>);
+
+<span class="c-cm">// update</span>
+product!.Price = <span class="c-num">12.50m</span>;
+store.Update(product);
+
+<span class="c-cm">// count and delete</span>
+<span class="c-key">var</span> total = store.Count();
+store.Delete(product);</pre>
+
+<pre id="p-swap" role="tabpanel" aria-labelledby="t-swap" tabindex="0" hidden><span class="c-cm">// Same model, same calls. Only construction changes.</span>
+
+<span class="c-key">using</span> Birko.Data.InMemory.Stores;
+
+<span class="c-key">var</span> store = <span class="c-key">new</span> <span class="c-type">InMemoryStore</span>&lt;<span class="c-type">Product</span>&gt;();
+<span class="c-cm">// no settings needed — the recommended test double</span>
+
+<span class="c-cm">// …or MongoDB</span>
+<span class="c-key">using</span> Birko.Data.MongoDB.Stores;
+
+<span class="c-key">var</span> store = <span class="c-key">new</span> <span class="c-type">MongoDBStore</span>&lt;<span class="c-type">Product</span>&gt;();
+store.SetSettings(settings);
+
+<span class="c-cm">// Create / Read / Update / Delete / Count are identical</span>
+<span class="c-cm">// from here on. That is the point of the store API.</span></pre>
+      </div>
+    </div>
+
+    <div style="margin-top:var(--b-space-3xl)">
+      <p class="kicker">Storage backends</p>
+      <div class="chips">
+        <span class="chip"><i class="dot"></i>SQL Server</span>
+        <span class="chip"><i class="dot"></i>PostgreSQL</span>
+        <span class="chip"><i class="dot"></i>MySQL</span>
+        <span class="chip"><i class="dot"></i>SQLite</span>
+        <span class="chip"><i class="dot"></i>TimescaleDB</span>
+        <span class="chip"><i class="dot"></i>MongoDB</span>
+        <span class="chip"><i class="dot"></i>RavenDB</span>
+        <span class="chip"><i class="dot"></i>Elasticsearch</span>
+        <span class="chip"><i class="dot"></i>Azure Cosmos DB</span>
+        <span class="chip"><i class="dot"></i>InfluxDB</span>
+        <span class="chip"><i class="dot"></i>JSON files</span>
+        <span class="chip"><i class="dot"></i>XML files</span>
+        <span class="chip"><i class="dot"></i>In-memory</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Projects ──────────────────────────────────────────────────────────── -->
+<section id="projects" class="alt">
+  <div class="wrap">
+    <p class="kicker">The repository</p>
+    <h2>177 library projects, by area</h2>
+    <p class="sub">
+      Every project is a top-level directory in one repo, with its tests under <code>tests/</code>.
+      Counted from the source tree, not from a hand-kept list.
+    </p>
+
+    <div class="map">
+      <div class="area" style="--fill:100%"><span class="n">65</span><span class="t">Data</span></div>
+      <div class="area" style="--fill:29%"><span class="n">19</span><span class="t">Communication</span></div>
+      <div class="area" style="--fill:23%"><span class="n">15</span><span class="t">Models</span></div>
+      <div class="area" style="--fill:14%"><span class="n">9</span><span class="t">Security</span></div>
+      <div class="area" style="--fill:14%"><span class="n">9</span><span class="t">BackgroundJobs</span></div>
+      <div class="area" style="--fill:12%"><span class="n">8</span><span class="t">Workflow</span></div>
+      <div class="area" style="--fill:9%"><span class="n">6</span><span class="t">EventBus</span></div>
+      <div class="area" style="--fill:9%"><span class="n">6</span><span class="t">AI</span></div>
+      <div class="area" style="--fill:8%"><span class="n">5</span><span class="t">Serialization</span></div>
+      <div class="area" style="--fill:8%"><span class="n">5</span><span class="t">Health</span></div>
+      <div class="area" style="--fill:6%"><span class="n">4</span><span class="t">MessageQueue</span></div>
+      <div class="area" style="--fill:5%"><span class="n">3</span><span class="t">Xaml</span></div>
+      <div class="area" style="--fill:5%"><span class="n">3</span><span class="t">Caching</span></div>
+      <div class="area" style="--fill:3%"><span class="n">2</span><span class="t">Telemetry</span></div>
+      <div class="area" style="--fill:3%"><span class="n">2</span><span class="t">Messaging</span></div>
+      <div class="area" style="--fill:3%"><span class="n">2</span><span class="t">Localization</span></div>
+      <div class="area" style="--fill:3%"><span class="n">2</span><span class="t">Storage</span></div>
+      <div class="area" style="--fill:3%"><span class="n">2</span><span class="t">Time</span></div>
+      <div class="area" style="--fill:2%"><span class="n">10</span><span class="t">single-project areas</span></div>
+    </div>
+    <p class="sub" style="margin-top:var(--b-space-lg);font-size:0.875rem">
+      The ten single-project areas: Contracts, Configuration, Helpers, CQRS, Rules, Validation,
+      Structures, Random, Redis and DesignTokens.
+    </p>
+  </div>
+</section>
+
+<!-- ── Getting started ───────────────────────────────────────────────────── -->
+<section>
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <p class="kicker">Getting started</p>
+        <h2>About ten minutes</h2>
+        <p class="sub">
+          To working CRUD against a real SQLite database. The wiki walks each step with files you
+          can copy.
+        </p>
+        <a class="btn btn-primary" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Getting-Started">
+          Read the guide
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <div>
+            <h3>Clone it next to your project</h3>
+            <p>Birko is consumed as source. The recommended layout nests the framework under
+            <code>Birko\Framework</code> with your own repos in a sibling <code>Birko\Consumers</code>.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Point at it with <code>$(BirkoSrc)</code></h3>
+            <p>One <code>Directory.Build.props</code> at your repo root resolves <code>/p:BirkoSrc=…</code>,
+            then the <code>BIRKO_SRC</code> environment variable, then a sensible default — so CI and
+            Docker override it without editing files.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Create one aggregator project</h3>
+            <p>It imports the <code>.projitems</code> you need; your other projects reference <em>it</em>.
+            One aggregator avoids the duplicate-type errors you get when several projects import
+            overlapping shared projects independently.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Write a model and use it</h3>
+            <p>The table is created on first use. No migration needed until you want one.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ── Ecosystem ─────────────────────────────────────────────────────────── -->
+<section class="alt">
+  <div class="wrap">
+    <p class="kicker">Ecosystem</p>
+    <h2>Where things live</h2>
+    <div class="repos">
+      <a class="repo" href="https://github.com/Birko-Framework/Birko.Framework">
+        <span class="nm">Birko.Framework <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        <p>The framework itself — 177 library projects at the repo root, 167 test projects under <code>tests/</code>, plus the wiki and the full docs set.</p>
+      </a>
+      <a class="repo" href="https://github.com/Birko-Framework/Birko.Web">
+        <span class="nm">Birko.Web <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        <p>Frontend libraries — Core, Components, Shell and Testing. TypeScript, built with esbuild, no framework dependency.</p>
+      </a>
+      <a class="repo" href="https://birko-framework.github.io/Birko.Web.Playground/">
+        <span class="nm">Birko.Web.Playground <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        <p>Live component gallery — the whole <code>b-*</code> library running in your browser, with a design-token editor and theme export. Nothing to install.</p>
+      </a>
+      <a class="repo" href="https://github.com/Birko-Framework/Birko.Sandbox">
+        <span class="nm">Birko.Sandbox <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        <p>Runnable reference consumer — wires up one slice of each layer and prints OK/FAIL. Small, real, and the import list to copy from.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>MIT licensed · © 2026 František Bereň</span>
+    <nav>
+      <a href="https://github.com/Birko-Framework">GitHub</a>
+      <a href="https://github.com/Birko-Framework/Birko.Framework/wiki">Wiki</a>
+      <a href="https://github.com/Birko-Framework/Birko.Framework/tree/main/Birko.Framework/docs">Docs</a>
+      <a href="https://github.com/Birko-Framework/Birko.Framework/blob/main/LICENSE">Licence</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ── Theme ───────────────────────────────────────────────────────────────
+     Persisted per viewer in localStorage, which is unavailable in some
+     contexts (private windows, blocked site data) — so every access is
+     guarded and the page renders correctly when it throws or comes back
+     empty. With nothing stored, the OS preference decides. */
+  var root = document.documentElement;
+  var KEY = "birko-theme";
+
+  function stored() {
+    try { return localStorage.getItem(KEY); } catch (e) { return null; }
+  }
+  function remember(v) {
+    try { localStorage.setItem(KEY, v); } catch (e) { /* not fatal */ }
+  }
+
+  var saved = stored();
+  var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  root.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
+
+  var btn = document.getElementById("theme");
+  if (btn) {
+    btn.addEventListener("click", function () {
+      var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      remember(next);
+    });
+  }
+
+  /* ── Code tabs ──────────────────────────────────────────────────────────
+     Full ARIA tab semantics including arrow-key roving focus, so the
+     examples are reachable without a mouse. */
+  var tablist = document.querySelector('[role="tablist"]');
+  if (!tablist) return;
+  var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      var panel = document.getElementById(t.getAttribute("aria-controls"));
+      if (panel) panel.hidden = !on;
+    });
+  }
+
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener("click", function () { select(tab); });
+    tab.addEventListener("keydown", function (e) {
+      var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      var next = tabs[(i + d + tabs.length) % tabs.length];
+      select(next);
+      next.focus();
+    });
+  });
+})();
+</script>
+</body>
+</html>
