@@ -31,8 +31,8 @@ These come from the framework repo and will drift. To re-measure, from the root 
 `Birko.Framework` checkout:
 
 ```sh
-ls -d Birko.* | wc -l          # 178 dirs = 177 libraries + the Birko.Framework aggregator
-ls -d tests/Birko.*/ | wc -l   # 167 test projects
+ls -d Birko.* | wc -l          # 196 dirs = 195 libraries + the Birko.Framework aggregator
+ls -d tests/Birko.*/ | wc -l   # 185 test projects
 ```
 
 The per-area counts in the *Projects* section:
@@ -41,8 +41,9 @@ The per-area counts in the *Projects* section:
 ls -d Birko.* | sed 's/^Birko\.//' | cut -d. -f1 | sort | uniq -c | sort -rn
 ```
 
-Storage-backend and component counts come from the framework `README.md`; the code samples are
-taken from the [wiki](https://github.com/Birko-Framework/Birko.Framework/wiki), where a CI job
+Storage-backend counts come from the framework `README.md`, the web-component count from
+`grep -rhoE "define\('b-[a-z0-9-]+'" src | sort -u | wc -l` in `Birko.Web.Components`. The code samples —
+the store tabs and every tab of the *Modules* gallery — are taken from the [wiki](https://github.com/Birko-Framework/Birko.Framework/wiki), where a CI job
 compiles every snippet against the current framework.
 
 ## Enabling Pages

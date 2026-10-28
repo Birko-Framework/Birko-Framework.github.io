@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Birko Framework</title>
-<meta name="description" content="A modular .NET framework for storing data, talking to things, and running work in the background — one store API over 13 backends, 177 library projects, MIT licensed." />
+<meta name="description" content="A modular .NET framework for storing data, talking to things, and running work in the background — one store API over 13 backends, plus events, jobs, caching, security, AI and UI — 195 library projects, MIT licensed." />
 <link rel="canonical" href="https://birko-framework.github.io/" />
 
 <meta property="og:type" content="website" />
@@ -260,6 +260,19 @@ h3 { margin: 0 0 var(--b-space-sm); font-size: 1.0625rem; font-weight: 600; }
 .card .ico svg { width: 1.1875rem; height: 1.1875rem; }
 .card p { margin: 0; font-size: 0.9375rem; color: var(--b-text-secondary); }
 
+a.card { display: flex; flex-direction: column; color: inherit; }
+a.card:hover { text-decoration: none; color: inherit; border-color: var(--b-color-primary); }
+.card p { flex: 1; }
+.card .more { margin-top: var(--b-space-md); font-size: 0.875rem; font-weight: 600; color: var(--b-color-primary); }
+:root[data-theme="dark"] .card .more { color: #93c5fd; }
+[role="tabpanel"][hidden] { display: none; }
+#modules .tabs { flex-wrap: wrap; }
+.panel-foot {
+  display: block; padding: var(--b-space-md) var(--b-space-xl);
+  border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.875rem; font-weight: 600; color: #93c5fd;
+}
+.panel-foot:hover { color: #fff; }
+
 /* ── Code ─────────────────────────────────────────────────────────────────── */
 .code-wrap { border: 1px solid var(--b-border); border-radius: var(--b-radius-lg); overflow: hidden; box-shadow: var(--b-shadow); background: var(--b-code-bg); }
 .tabs { display: flex; gap: var(--b-space-xs); padding: var(--b-space-sm) var(--b-space-sm) 0; background: var(--b-code-bg); border-bottom: 1px solid rgba(255,255,255,0.08); overflow-x: auto; }
@@ -352,6 +365,7 @@ footer { border-top: 1px solid var(--b-border); padding: var(--b-space-2xl) 0; b
     <nav class="top">
       <a class="hide-sm" href="#what">What it does</a>
       <a class="hide-sm" href="#code">Code</a>
+      <a class="hide-sm" href="#modules">Modules</a>
       <a class="hide-sm" href="#projects">Projects</a>
       <a href="https://github.com/Birko-Framework/Birko.Framework/wiki">Wiki</a>
       <a href="https://github.com/Birko-Framework">GitHub</a>
@@ -391,10 +405,11 @@ footer { border-top: 1px solid var(--b-border); padding: var(--b-space-2xl) 0; b
     </div>
 
     <div class="stats">
-      <div class="stat"><b>177</b><span>library projects</span></div>
-      <div class="stat"><b>167</b><span>test projects</span></div>
+      <div class="stat"><b>195</b><span>library projects</span></div>
+      <div class="stat"><b>185</b><span>test projects</span></div>
       <div class="stat"><b>13</b><span>storage backends</span></div>
-      <div class="stat"><b>5</b><span>SQL providers</span></div>
+      <div class="stat"><b>15</b><span>LLM providers</span></div>
+      <div class="stat"><b>67</b><span>web components</span></div>
       <div class="stat"><b>0</b><span>NuGet packages to install</span></div>
     </div>
   </div>
@@ -406,51 +421,120 @@ footer { border-top: 1px solid var(--b-border); padding: var(--b-space-2xl) 0; b
     <p class="kicker">What it gives you</p>
     <h2>Pick the pieces you need</h2>
     <p class="sub">
-      Everything below sits <em>beside</em> the data layer, not on top of it. You can use Birko's
-      REST client without using its stores, and vice versa.
+      Eighteen areas, each with its own guide. Everything past the store sits <em>beside</em> the data
+      layer, not on top of it — you can use Birko's REST client, job queue or cache without its stores,
+      and vice versa.
     </p>
 
     <div class="cards">
-      <div class="card">
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Data-and-Stores">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/></svg></div>
         <h3>Save and query objects</h3>
-        <p>One store API over 13 backends — sync and async, with bulk operations and lazy schema init that creates tables and indexes on first use.</p>
-      </div>
-      <div class="card">
+        <p>One store API over 13 backends — sync and async, bulk writes, and lazy schema init that creates tables on first use.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/SQL-Databases">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v6H4zM4 14h16v6H4z"/><path d="M7 7h.01M7 17h.01"/></svg></div>
         <h3>Use a real SQL database</h3>
-        <p>Attribute-mapped models across SQL Server, PostgreSQL, MySQL, SQLite and TimescaleDB, with a platform-agnostic migration framework — write once, run anywhere.</p>
-      </div>
-      <div class="card">
+        <p>Attribute-mapped models on SQL Server, PostgreSQL, MySQL, SQLite and TimescaleDB, with migrations and transactions.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Data-Toolkit">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <h3>Decorate any store</h3>
+        <p>Timestamps, audit, soft delete and tenancy composed around any backend — plus sync between stores, views and aggregates.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Multi-Tenancy">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M16 3.1a4 4 0 0 1 0 7.8M22 21v-2a4 4 0 0 0-3-3.9"/></svg></div>
+        <h3>Serve many tenants</h3>
+        <p>An ambient tenant scopes every read and write; strict mode refuses an unscoped call instead of seeing everything.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Communication">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg></div>
         <h3>Call or serve APIs</h3>
-        <p>REST, gRPC, GraphQL, SOAP, WebSocket and SSE — plus Bluetooth, Modbus, NFC, IR and camera adapters for the hardware end.</p>
-      </div>
-      <div class="card">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0-3 3 3 3 0 0 0 0 6 3 3 0 0 0 3 3v1a3 3 0 0 0 6 0v-1a3 3 0 0 0 3-3 3 3 0 0 0 0-6 3 3 0 0 0-3-3V5a3 3 0 0 0-3-3z"/></svg></div>
+        <p>REST, gRPC, GraphQL, SOAP, WebSocket and SSE, Google and Microsoft sign-in — and Modbus, Bluetooth, NFC for the hardware end.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Security">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Sign in and authorise</h3>
+        <p>JWT, BCrypt, permission grants per resource, an OAuth server of your own, HashiCorp Vault and Azure Key Vault.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/AI-and-LLM">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg></div>
         <h3>Talk to an LLM</h3>
-        <p>One interface over Claude, OpenAI, Gemini, Ollama and Azure, with a coding/media/task agent catalogue, orchestration and retry-and-fallback resilience.</p>
-      </div>
-      <div class="card">
+        <p>One interface over 15 providers — Claude, OpenAI, Gemini, Ollama and more — with tool-using agents and cost limits.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Workflow-and-Background-Jobs">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
         <h3>Run jobs and state machines</h3>
-        <p>Background job queues over 8 persistence backends, and a workflow engine with guards, actions and Mermaid/DOT export.</p>
-      </div>
-      <div class="card">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <h3>Log people in</h3>
-        <p>PBKDF2 and BCrypt hashing, AES, JWT, OAuth, RBAC, ASP.NET Core integration, HashiCorp Vault and Azure Key Vault.</p>
-      </div>
-      <div class="card">
+        <p>Durable job queues on 8 backends with retries and schedules, and a workflow engine with guards and Mermaid export.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Events-and-Messaging">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <h3>Publish events</h3>
+        <p>An event bus with a transactional outbox, message queues on Redis and MQTT, CQRS and event sourcing.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Email-and-Templates">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></div>
+        <h3>Send email</h3>
+        <p>SMTP with templates and Razor rendering; every failure says whether a retry can help.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Caching">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></div>
+        <h3>Cache reads</h3>
+        <p>In-memory, Redis, and a two-level hybrid cache behind one interface, with get-or-set and sliding expiry.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Health-and-Telemetry">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <h3>Know it is healthy</h3>
+        <p>Health checks for disks, databases, search and queues; OpenTelemetry metrics and traces around every store.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Files-and-Serialization">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+        <h3>Store files, pick a format</h3>
+        <p>Local disk and Azure Blob behind one file API; JSON, Newtonsoft, MessagePack, Protobuf and YAML serializers.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Validation-and-Rules">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>Validate and decide</h3>
+        <p>Fluent validators for any object, and a data-driven rule engine whose rules also become store filters.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Localization">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h10M9 4v4M7 8c0 4 3 7 7 8M13 8c-1 4-4 7-8 8M14 20l4-9 4 9M15.5 17h5"/></svg></div>
+        <h3>Translate content</h3>
+        <p>UI translations and translated entity fields — filter on the Slovak name and get the Slovak row.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Domain-Models">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></div>
+        <h3>Start from domain models</h3>
+        <p>Ready-made products, categories, customers, pricing, inventory, users and SEO — with Money value objects and SQL mappings.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Web-UI">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></div>
         <h3>Build a web UI</h3>
-        <p>55 Shadow-DOM components with reactive state, a hash router and a three-level app shell. No framework, no build magic.</p>
-      </div>
-      <div class="card">
+        <p>67 Shadow-DOM components with reactive state, a router and a three-level app shell. No framework, no build magic.</p>
+        <span class="more">Read the guide →</span>
+      </a>
+      <a class="card" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Desktop-XAML">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8"/></svg></div>
         <h3>Build a desktop app</h3>
-        <p>An Avalonia-first XAML shell with an Avalonia-free MVVM core and four runtime-swappable themes — sharing design tokens byte-for-byte with the web CSS.</p>
-      </div>
+        <p>An Avalonia shell with an Avalonia-free MVVM core, sharing design tokens with the web CSS.</p>
+        <span class="more">Read the guide →</span>
+      </a>
     </div>
   </div>
 </section>
@@ -583,40 +667,207 @@ store.SetSettings(settings);
   </div>
 </section>
 
+<!-- ── Modules ───────────────────────────────────────────────────────────── -->
+<section id="modules" class="alt">
+  <div class="wrap">
+    <p class="kicker">Beyond the store</p>
+    <h2>Every module, in a few lines</h2>
+    <p class="sub">
+      The store is only the start. Each tab is the core of one module, lifted from its wiki page, where
+      a CI job compiles every snippet against the current framework.
+    </p>
+    <div class="code-wrap">
+      <div class="tabs" role="tablist" aria-label="Module examples">
+          <button class="tab" role="tab" id="mt-events" aria-controls="mp-events" aria-selected="true">Events</button>
+          <button class="tab" role="tab" id="mt-jobs" aria-controls="mp-jobs" aria-selected="false" tabindex="-1">Jobs</button>
+          <button class="tab" role="tab" id="mt-caching" aria-controls="mp-caching" aria-selected="false" tabindex="-1">Caching</button>
+          <button class="tab" role="tab" id="mt-permissions" aria-controls="mp-permissions" aria-selected="false" tabindex="-1">Permissions</button>
+          <button class="tab" role="tab" id="mt-signin" aria-controls="mp-signin" aria-selected="false" tabindex="-1">Sign-in</button>
+          <button class="tab" role="tab" id="mt-tenancy" aria-controls="mp-tenancy" aria-selected="false" tabindex="-1">Tenancy</button>
+          <button class="tab" role="tab" id="mt-decorators" aria-controls="mp-decorators" aria-selected="false" tabindex="-1">Decorators</button>
+          <button class="tab" role="tab" id="mt-validation" aria-controls="mp-validation" aria-selected="false" tabindex="-1">Validation</button>
+          <button class="tab" role="tab" id="mt-translations" aria-controls="mp-translations" aria-selected="false" tabindex="-1">Translations</button>
+          <button class="tab" role="tab" id="mt-health" aria-controls="mp-health" aria-selected="false" tabindex="-1">Health</button>
+          <button class="tab" role="tab" id="mt-aiagents" aria-controls="mp-aiagents" aria-selected="false" tabindex="-1">AI agents</button>
+          <button class="tab" role="tab" id="mt-email" aria-controls="mp-email" aria-selected="false" tabindex="-1">Email</button>
+      </div>
+        <div id="mp-events" role="tabpanel" aria-labelledby="mt-events" tabindex="0">
+<pre><span class="c-key">using</span> <span class="c-key">var</span> bus = <span class="c-key">new</span> <span class="c-type">InProcessEventBus</span>();
+
+<span class="c-key">using</span> <span class="c-key">var</span> subscription = bus.Subscribe(<span class="c-key">new</span> <span class="c-type">SendReceipt</span>());
+<span class="c-key">await</span> bus.PublishAsync(<span class="c-key">new</span> <span class="c-type">OrderPlaced</span> { OrderGuid = orderGuid, Total = <span class="c-num">42m</span> });
+
+<span class="c-cm">// OrderPlaced : EventBase, SendReceipt : IEventHandler&lt;OrderPlaced&gt;</span>
+<span class="c-cm">// Swap in DistributedEventBus over Redis or MQTT, or add the SQL outbox,</span>
+<span class="c-cm">// and publishers do not change.</span></pre>
+          <a class="panel-foot" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Events-and-Messaging">Full guide: Events and Messaging →</a>
+        </div>
+        <div id="mp-jobs" role="tabpanel" aria-labelledby="mt-jobs" tabindex="0" hidden>
+<pre>services.AddTransient&lt;<span class="c-type">SendEmailJob</span>&gt;();
+services.AddBackgroundJobs(o =&gt; o.Queue.MaxConcurrency = <span class="c-num">8</span>);
+services.AddRecurringJob&lt;<span class="c-type">CleanupJob</span>&gt;(<span class="c-str">&quot;nightly-cleanup&quot;</span>, <span class="c-type">TimeSpan</span>.FromHours(<span class="c-num">24</span>));
+
+<span class="c-cm">// later, from anywhere</span>
+<span class="c-key">await</span> jobs.ScheduleAsync&lt;<span class="c-type">SendEmailJob</span>&gt;(<span class="c-type">TimeSpan</span>.FromMinutes(<span class="c-num">30</span>));</pre>
+          <a class="panel-foot" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Workflow-and-Background-Jobs">Full guide: Workflow and Background Jobs →</a>
+        </div>
+        <div id="mp-caching" role="tabpanel" aria-labelledby="mt-caching" tabindex="0" hidden>
+<pre><span class="c-key">var</span> hybrid = <span class="c-key">new</span> <span class="c-type">HybridCache</span>(<span class="c-key">new</span> <span class="c-type">MemoryCache</span>(), <span class="c-key">new</span> <span class="c-type">RedisCache</span>(redisSettings));
+
+<span class="c-key">var</span> name = <span class="c-key">await</span> hybrid.GetOrSetAsync(
+    <span class="c-str">$&quot;product:{productId}:name&quot;</span>,
+    <span class="c-key">async</span> ct =&gt; { <span class="c-key">await</span> <span class="c-type">Task</span>.Delay(<span class="c-num">10</span>, ct); <span class="c-key">return</span> <span class="c-str">&quot;Widget&quot;</span>; },   <span class="c-cm">// the loader runs on a miss only</span>
+    <span class="c-type">CacheEntryOptions</span>.Sliding(<span class="c-type">TimeSpan</span>.FromMinutes(<span class="c-num">5</span>)));</pre>
+          <a class="panel-foot" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Caching">Full guide: Caching →</a>
+        </div>
+        <div id="mp-permissions" role="tabpanel" aria-labelledby="mt-permissions" tabindex="0" hidden>
+<pre><span class="c-key">var</span> table = <span class="c-key">new</span> <span class="c-type">GrantOptions</span>()
+    .DefineRole(<span class="c-str">&quot;owner&quot;</span>,  <span class="c-str">&quot;read&quot;</span>, <span class="c-str">&quot;edit&quot;</span>, <span class="c-str">&quot;delete&quot;</span>, <span class="c-str">&quot;share&quot;</span>)
+    .DefineRole(<span class="c-str">&quot;editor&quot;</span>, <span class="c-str">&quot;read&quot;</span>, <span class="c-str">&quot;edit&quot;</span>)
+    .ResourceType(<span class="c-str">&quot;presentation&quot;</span>, <span class="c-type">ResourceVisibility</span>.Public)
+    .Build();
+
+<span class="c-key">var</span> service = <span class="c-key">new</span> <span class="c-type">GrantService</span>(grantStore, table, <span class="c-key">new</span> <span class="c-type">SystemDateTimeProvider</span>());
+<span class="c-key">await</span> service.GrantOwnerOnCreateAsync(creator, <span class="c-str">&quot;presentation&quot;</span>, deckId);
+<span class="c-key">await</span> service.GrantAsync(creator, colleague, <span class="c-str">&quot;presentation&quot;</span>, deckId, <span class="c-str">&quot;editor&quot;</span>);
+<span class="c-key">var</span> canEdit = <span class="c-key">await</span> service.CanAsync(colleague, <span class="c-str">&quot;presentation&quot;</span>, deckId, <span class="c-str">&quot;edit&quot;</span>);   <span class="c-cm">// true</span></pre>
+          <a class="panel-foot" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Security">Full guide: Security →</a>
+        </div>
+        <div id="mp-signin" role="tabpanel" aria-labelledby="mt-signin" tabindex="0" hidden>
+<pre><span class="c-key">var</span> google = <span class="c-key">new</span> <span class="c-type">OpenIdSignIn</span>(
+    <span class="c-type">GoogleOpenIdProvider</span>.Create(clientId, clientSecret, <span class="c-str">&quot;https://app.example/signin/google/callback&quot;</span>),
+    <span class="c-key">new</span> <span class="c-type">InMemoryOAuthStateStore</span>(), http);
+
+<span class="c-key">var</span> start  = <span class="c-key">await</span> google.BeginAsync(binding: cookieValue, data: <span class="c-str">&quot;/decks&quot;</span>);   <span class="c-cm">// redirect to start.AuthorizationUrl</span>
+<span class="c-key">var</span> result = <span class="c-key">await</span> google.CompleteAsync(<span class="c-key">new</span> <span class="c-type">OpenIdCallback</span>(state, code, error), cookieValue);
+<span class="c-key">if</span> (result.Succeeded)
+{
+    <span class="c-key">var</span> key = <span class="c-str">$&quot;{result.Identity!.Provider}:{result.Identity.Subject}&quot;</span>;   <span class="c-cm">// id_token verified</span>
+}</pre>
+          <a class="panel-foot" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Communication">Full guide: Communication →</a>
+        </div>
+        <div id="mp-tenancy" role="tabpanel" aria-labelledby="mt-tenancy" tabindex="0" hidden>
+<pre><span class="c-type">IAsyncBulkStore</span>&lt;<span class="c-type">Invoice</span>&gt; invoices =
+    <span class="c-key">new</span> <span class="c-type">AsyncTenantBulkStoreWrapper</span>&lt;<span class="c-type">IAsyncBulkStore</span>&lt;<span class="c-type">Invoice</span>&gt;, <span class="c-type">Invoice</span>&gt;(
+        raw, tenants, <span class="c-type">TenantIsolationMode</span>.Strict);
+
+<span class="c-key">await</span> tenants.WithTenantAsync(acme, <span class="c-str">&quot;Acme&quot;</span>, <span class="c-key">async</span> () =&gt;
+{
+    <span class="c-key">await</span> invoices.CreateAsync(<span class="c-key">new</span> <span class="c-type">Invoice</span> { Number = <span class="c-str">&quot;A-1&quot;</span>, Total = <span class="c-num">120m</span> });
+    <span class="c-key">var</span> mine = <span class="c-key">await</span> invoices.ReadAsync(x =&gt; x.Total &gt; <span class="c-num">100m</span>);   <span class="c-cm">// Acme&#x27;s rows only</span>
+});</pre>
+          <a class="panel-foot" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Multi-Tenancy">Full guide: Multi-Tenancy →</a>
+        </div>
+        <div id="mp-decorators" role="tabpanel" aria-labelledby="mt-decorators" tabindex="0" hidden>
+<pre><span class="c-type">IAsyncBulkStore</span>&lt;<span class="c-type">Order</span>&gt; orders = <span class="c-type">StoreWrapperBuilder</span>.Build(
+    <span class="c-key">new</span> <span class="c-type">AsyncInMemoryStore</span>&lt;<span class="c-type">Order</span>&gt;(),
+    clock:         <span class="c-key">new</span> <span class="c-type">SystemDateTimeProvider</span>(),
+    auditContext:  <span class="c-key">new</span> <span class="c-type">CurrentUser</span>(),
+    tenantContext: tenants,
+    tenantMode:    <span class="c-type">TenantIsolationMode</span>.Strict);
+
+<span class="c-cm">// Order : AbstractLogModel, ITenant, ISoftDeletable, IAuditable</span>
+<span class="c-cm">// → Timestamp, Audit, Tenant and SoftDelete are applied from the interfaces</span></pre>
+          <a class="panel-foot" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Data-Toolkit">Full guide: Data Toolkit →</a>
+        </div>
+        <div id="mp-validation" role="tabpanel" aria-labelledby="mt-validation" tabindex="0" hidden>
+<pre><span class="c-key">public</span> <span class="c-key">class</span> CustomerValidator : <span class="c-type">AbstractValidator</span>&lt;<span class="c-type">Customer</span>&gt;
+{
+    <span class="c-key">public</span> <span class="c-type">CustomerValidator</span>()
+    {
+        <span class="c-type">RuleFor</span>(x =&gt; x.Name).Required().MaxLength(<span class="c-num">100</span>);
+        <span class="c-type">RuleFor</span>(x =&gt; x.Email).Required().Email();
+        <span class="c-type">RuleFor</span>(x =&gt; x.Age).Range(<span class="c-num">18</span>, <span class="c-num">130</span>);
+    }
+}
+
+<span class="c-key">var</span> result = <span class="c-key">new</span> <span class="c-type">CustomerValidator</span>().Validate(customer);   <span class="c-cm">// result.IsValid, result.ToDictionary()</span></pre>
+          <a class="panel-foot" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Validation-and-Rules">Full guide: Validation and Rules →</a>
+        </div>
+        <div id="mp-translations" role="tabpanel" aria-labelledby="mt-translations" tabindex="0" hidden>
+<pre><span class="c-key">var</span> products = <span class="c-key">new</span> <span class="c-type">LocalizedStoreWrapper</span>&lt;<span class="c-type">InMemoryStore</span>&lt;<span class="c-type">Product</span>&gt;, <span class="c-type">Product</span>&gt;(
+    <span class="c-key">new</span> <span class="c-type">InMemoryStore</span>&lt;<span class="c-type">Product</span>&gt;(), <span class="c-key">new</span> <span class="c-type">InMemoryStore</span>&lt;<span class="c-type">EntityTranslationModel</span>&gt;(), culture);
+
+<span class="c-key">var</span> id = products.Create(<span class="c-key">new</span> <span class="c-type">Product</span> { Name = <span class="c-str">&quot;Chair&quot;</span>, Price = <span class="c-num">49m</span> });   <span class="c-cm">// the base row</span>
+
+culture.CurrentCulture = <span class="c-type">CultureInfo</span>.GetCultureInfo(<span class="c-str">&quot;sk&quot;</span>);
+<span class="c-key">var</span> chair = products.Read(id)!;
+chair.Name = <span class="c-str">&quot;Stolička&quot;</span>;
+products.Update(chair);                                   <span class="c-cm">// a translation row; the base keeps &quot;Chair&quot;</span>
+<span class="c-key">var</span> found = products.Read(x =&gt; x.Name == <span class="c-str">&quot;Stolička&quot;</span>);    <span class="c-cm">// filters on the translated value</span></pre>
+          <a class="panel-foot" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Localization">Full guide: Localization →</a>
+        </div>
+        <div id="mp-health" role="tabpanel" aria-labelledby="mt-health" tabindex="0" hidden>
+<pre><span class="c-key">var</span> runner = <span class="c-key">new</span> <span class="c-type">HealthCheckRunner</span>(defaultTimeout: <span class="c-type">TimeSpan</span>.FromSeconds(<span class="c-num">5</span>))
+    .Register(<span class="c-str">&quot;disk&quot;</span>,   <span class="c-key">new</span> <span class="c-type">DiskSpaceHealthCheck</span>(<span class="c-str">&quot;C:\\&quot;</span>, warningThresholdMb: <span class="c-num">2048</span>), <span class="c-str">&quot;live&quot;</span>)
+    .Register(<span class="c-str">&quot;search&quot;</span>, <span class="c-key">new</span> <span class="c-type">ElasticSearchHealthCheck</span>(<span class="c-str">&quot;http://localhost:9200&quot;</span>), <span class="c-str">&quot;ready&quot;</span>);
+
+<span class="c-key">var</span> report = <span class="c-key">await</span> runner.RunAsync(tag: <span class="c-str">&quot;ready&quot;</span>);
+<span class="c-type">Console</span>.WriteLine(<span class="c-str">$&quot;{report.Status} in {report.TotalDuration.TotalMilliseconds:F0} ms&quot;</span>);</pre>
+          <a class="panel-foot" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Health-and-Telemetry">Full guide: Health and Telemetry →</a>
+        </div>
+        <div id="mp-aiagents" role="tabpanel" aria-labelledby="mt-aiagents" tabindex="0" hidden>
+<pre><span class="c-type">ProviderRegistration</span>.RegisterAll();
+<span class="c-key">var</span> provider = <span class="c-type">LlmProviderFactory</span>.Create(<span class="c-str">&quot;claude&quot;</span>, <span class="c-key">new</span> <span class="c-type">Dictionary</span>&lt;<span class="c-key">string</span>, <span class="c-key">string</span>&gt; { [<span class="c-str">&quot;apiKey&quot;</span>] = key });
+
+<span class="c-key">var</span> agent  = <span class="c-key">new</span> <span class="c-type">StockAgent</span>(provider, <span class="c-key">new</span> <span class="c-type">AgentOptions</span> { MaxIterations = <span class="c-num">5</span>, Interactive = <span class="c-key">false</span> });
+<span class="c-key">var</span> result = <span class="c-key">await</span> agent.RunWithOutcomeAsync(<span class="c-str">&quot;How many W-100 do we have?&quot;</span>);
+<span class="c-key">if</span> (result.IsCompleted) <span class="c-type">Console</span>.WriteLine(result.Conversation.Last().GetText());</pre>
+          <a class="panel-foot" href="https://github.com/Birko-Framework/Birko.Framework/wiki/AI-and-LLM">Full guide: AI and LLM →</a>
+        </div>
+        <div id="mp-email" role="tabpanel" aria-labelledby="mt-email" tabindex="0" hidden>
+<pre><span class="c-key">using</span> <span class="c-key">var</span> sender = <span class="c-key">new</span> <span class="c-type">SmtpEmailSender</span>(settings);
+
+<span class="c-key">var</span> result = <span class="c-key">await</span> sender.SendAsync(<span class="c-key">new</span> EmailMessage
+{
+    Recipients = [<span class="c-key">new</span> <span class="c-type">MessageAddress</span>(<span class="c-str">&quot;ada@example.com&quot;</span>, <span class="c-str">&quot;Ada&quot;</span>)],
+    Subject = <span class="c-str">&quot;Welcome&quot;</span>, Body = <span class="c-str">&quot;&lt;p&gt;Hello Ada&lt;/p&gt;&quot;</span>, IsHtml = <span class="c-key">true</span>,
+});
+<span class="c-key">if</span> (!result.Success &amp;&amp; result.IsTransientFailure) { /* retry later */ }</pre>
+          <a class="panel-foot" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Email-and-Templates">Full guide: Email and Templates →</a>
+        </div>
+    </div>
+    <p class="sub" style="margin-top:var(--b-space-lg);font-size:0.9375rem">
+      Looking for one capability? The <a href="https://github.com/Birko-Framework/Birko.Framework/wiki/Module-Map">module map</a> lists all 195 projects by what
+      they are for.
+    </p>
+  </div>
+</section>
+
 <!-- ── Projects ──────────────────────────────────────────────────────────── -->
 <section id="projects" class="alt">
   <div class="wrap">
     <p class="kicker">The repository</p>
-    <h2>177 library projects, by area</h2>
+    <h2>195 library projects, by area</h2>
     <p class="sub">
       Every project is a top-level directory in one repo, with its tests under <code>tests/</code>.
       Counted from the source tree, not from a hand-kept list.
     </p>
 
     <div class="map">
-      <div class="area" style="--fill:100%"><span class="n">65</span><span class="t">Data</span></div>
-      <div class="area" style="--fill:29%"><span class="n">19</span><span class="t">Communication</span></div>
-      <div class="area" style="--fill:23%"><span class="n">15</span><span class="t">Models</span></div>
-      <div class="area" style="--fill:14%"><span class="n">9</span><span class="t">Security</span></div>
-      <div class="area" style="--fill:14%"><span class="n">9</span><span class="t">BackgroundJobs</span></div>
+      <div class="area" style="--fill:100%"><span class="n">69</span><span class="t">Data</span></div>
+      <div class="area" style="--fill:30%"><span class="n">21</span><span class="t">Communication</span></div>
+      <div class="area" style="--fill:22%"><span class="n">15</span><span class="t">Security</span></div>
+      <div class="area" style="--fill:22%"><span class="n">15</span><span class="t">Models</span></div>
+      <div class="area" style="--fill:14%"><span class="n">10</span><span class="t">BackgroundJobs</span></div>
       <div class="area" style="--fill:12%"><span class="n">8</span><span class="t">Workflow</span></div>
+      <div class="area" style="--fill:12%"><span class="n">8</span><span class="t">Health</span></div>
+      <div class="area" style="--fill:10%"><span class="n">7</span><span class="t">AI</span></div>
       <div class="area" style="--fill:9%"><span class="n">6</span><span class="t">EventBus</span></div>
-      <div class="area" style="--fill:9%"><span class="n">6</span><span class="t">AI</span></div>
-      <div class="area" style="--fill:8%"><span class="n">5</span><span class="t">Serialization</span></div>
-      <div class="area" style="--fill:8%"><span class="n">5</span><span class="t">Health</span></div>
+      <div class="area" style="--fill:7%"><span class="n">5</span><span class="t">Serialization</span></div>
       <div class="area" style="--fill:6%"><span class="n">4</span><span class="t">MessageQueue</span></div>
-      <div class="area" style="--fill:5%"><span class="n">3</span><span class="t">Xaml</span></div>
-      <div class="area" style="--fill:5%"><span class="n">3</span><span class="t">Caching</span></div>
+      <div class="area" style="--fill:4%"><span class="n">3</span><span class="t">Xaml</span></div>
+      <div class="area" style="--fill:4%"><span class="n">3</span><span class="t">Caching</span></div>
       <div class="area" style="--fill:3%"><span class="n">2</span><span class="t">Telemetry</span></div>
       <div class="area" style="--fill:3%"><span class="n">2</span><span class="t">Messaging</span></div>
       <div class="area" style="--fill:3%"><span class="n">2</span><span class="t">Localization</span></div>
       <div class="area" style="--fill:3%"><span class="n">2</span><span class="t">Storage</span></div>
       <div class="area" style="--fill:3%"><span class="n">2</span><span class="t">Time</span></div>
-      <div class="area" style="--fill:2%"><span class="n">10</span><span class="t">single-project areas</span></div>
+      <div class="area" style="--fill:2%"><span class="n">11</span><span class="t">single-project areas</span></div>
     </div>
     <p class="sub" style="margin-top:var(--b-space-lg);font-size:0.875rem">
-      The ten single-project areas: Contracts, Configuration, Helpers, CQRS, Rules, Validation,
-      Structures, Random, Redis and DesignTokens.
+      The eleven single-project areas: Contracts, Configuration, Helpers, CQRS, Rules, Validation,
+      Structures, Random, Redis, VersionControl and DesignTokens.
     </p>
   </div>
 </section>
@@ -681,7 +932,7 @@ store.SetSettings(settings);
     <div class="repos">
       <a class="repo" href="https://github.com/Birko-Framework/Birko.Framework">
         <span class="nm">Birko.Framework <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
-        <p>The framework itself — 177 library projects at the repo root, 167 test projects under <code>tests/</code>, plus the wiki and the full docs set.</p>
+        <p>The framework itself — 195 library projects at the repo root, 185 test projects under <code>tests/</code>, plus the wiki and the full docs set.</p>
       </a>
       <a class="repo" href="https://github.com/Birko-Framework/Birko.Web">
         <span class="nm">Birko.Web <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
@@ -748,29 +999,29 @@ store.SetSettings(settings);
   /* ── Code tabs ──────────────────────────────────────────────────────────
      Full ARIA tab semantics including arrow-key roving focus, so the
      examples are reachable without a mouse. */
-  var tablist = document.querySelector('[role="tablist"]');
-  if (!tablist) return;
-  var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+  Array.prototype.forEach.call(document.querySelectorAll('[role="tablist"]'), function (tablist) {
+    var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
 
-  function select(tab) {
-    tabs.forEach(function (t) {
-      var on = t === tab;
-      t.setAttribute("aria-selected", on ? "true" : "false");
-      t.tabIndex = on ? 0 : -1;
-      var panel = document.getElementById(t.getAttribute("aria-controls"));
-      if (panel) panel.hidden = !on;
-    });
-  }
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute("aria-selected", on ? "true" : "false");
+        t.tabIndex = on ? 0 : -1;
+        var panel = document.getElementById(t.getAttribute("aria-controls"));
+        if (panel) panel.hidden = !on;
+      });
+    }
 
-  tabs.forEach(function (tab, i) {
-    tab.addEventListener("click", function () { select(tab); });
-    tab.addEventListener("keydown", function (e) {
-      var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
-      if (!d) return;
-      e.preventDefault();
-      var next = tabs[(i + d + tabs.length) % tabs.length];
-      select(next);
-      next.focus();
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener("click", function () { select(tab); });
+      tab.addEventListener("keydown", function (e) {
+        var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        var next = tabs[(i + d + tabs.length) % tabs.length];
+        select(next);
+        next.focus();
+      });
     });
   });
 })();
