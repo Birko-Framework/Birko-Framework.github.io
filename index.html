@@ -273,6 +273,33 @@ a.card:hover { text-decoration: none; color: inherit; border-color: var(--b-colo
 }
 .panel-foot:hover { color: #fff; }
 
+/* ── UI section ───────────────────────────────────────────────────────────── */
+.ui-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--b-space-xl); }
+@media (min-width: 60rem) { .ui-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ui-card {
+  display: flex; flex-direction: column; gap: var(--b-space-lg);
+  background: var(--b-bg-elevated); border: 1px solid var(--b-border);
+  border-radius: var(--b-radius-lg); padding: var(--b-space-xl); box-shadow: var(--b-shadow-sm);
+}
+.ui-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--b-space-sm) var(--b-space-md); }
+.ui-head h3 { margin: 0; font-size: 1.375rem; letter-spacing: -0.01em; }
+.ui-tag { font-size: 0.8125rem; color: var(--b-text-secondary); font-family: var(--b-font-mono); }
+.ui-lede { margin: 0; color: var(--b-text-secondary); }
+.ui-lede code, .ui-list code, .ui-tokens code { background: var(--b-overlay-subtle); padding: 0.1rem 0.35rem; border-radius: var(--b-radius-sm); font-size: 0.875em; }
+.ui-list { margin: 0; padding-left: 1.1rem; display: grid; gap: var(--b-space-sm); font-size: 0.9375rem; color: var(--b-text-secondary); }
+.ui-list strong { color: var(--b-text); }
+.ui-code { box-shadow: none; }
+.ui-code pre { font-size: 0.8125rem; padding: var(--b-space-lg); }
+.ui-code .ui-pre-2 { border-top: 1px solid rgba(255,255,255,0.08); }
+.ui-links { display: flex; flex-wrap: wrap; gap: var(--b-space-sm); margin-top: auto; }
+.ui-tokens {
+  margin-top: var(--b-space-2xl); display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: var(--b-space-sm) var(--b-space-md); font-size: 0.9375rem; color: var(--b-text-secondary);
+}
+.ui-node { padding: var(--b-space-sm) var(--b-space-md); border: 1px solid var(--b-border); border-radius: var(--b-radius); background: var(--b-bg-elevated); }
+.ui-arrow, .ui-plus { color: var(--b-color-primary); font-weight: 700; }
+.ui-note { flex-basis: 100%; text-align: center; font-size: 0.8125rem; color: var(--b-text-muted); }
+
 /* ── Code ─────────────────────────────────────────────────────────────────── */
 .code-wrap { border: 1px solid var(--b-border); border-radius: var(--b-radius-lg); overflow: hidden; box-shadow: var(--b-shadow); background: var(--b-code-bg); }
 .tabs { display: flex; gap: var(--b-space-xs); padding: var(--b-space-sm) var(--b-space-sm) 0; background: var(--b-code-bg); border-bottom: 1px solid rgba(255,255,255,0.08); overflow-x: auto; }
@@ -366,6 +393,7 @@ footer { border-top: 1px solid var(--b-border); padding: var(--b-space-2xl) 0; b
       <a class="hide-sm" href="#what">What it does</a>
       <a class="hide-sm" href="#code">Code</a>
       <a class="hide-sm" href="#modules">Modules</a>
+      <a class="hide-sm" href="#ui">UI</a>
       <a class="hide-sm" href="#projects">Projects</a>
       <a href="https://github.com/Birko-Framework/Birko.Framework/wiki">Wiki</a>
       <a href="https://github.com/Birko-Framework">GitHub</a>
@@ -831,6 +859,108 @@ products.Update(chair);                                   <span class="c-cm">// 
       Looking for one capability? The <a href="https://github.com/Birko-Framework/Birko.Framework/wiki/Module-Map">module map</a> lists all 195 projects by what
       they are for.
     </p>
+  </div>
+</section>
+
+<!-- ── UI: Birko.Web and Birko.Xaml ─────────────────────────────────────── -->
+<section id="ui">
+  <div class="wrap">
+    <p class="kicker">User interface</p>
+    <h2>One design system, on the web and the desktop</h2>
+    <p class="sub">
+      Two UI libraries share one <code>tokens.json</code>: it generates the web CSS and the Avalonia resource
+      dictionaries, so a Birko web app and a Birko desktop app look like the same product — same colours, spacing,
+      radii and themes.
+    </p>
+
+    <div class="ui-grid">
+      <article class="ui-card">
+        <div class="ui-head">
+          <h3>Birko.Web</h3>
+          <span class="ui-tag">TypeScript · Web Components · v0.1.20</span>
+        </div>
+        <p class="ui-lede">
+          A frontend library with no framework underneath: custom elements with Shadow DOM, built with esbuild,
+          consumed as source. Drop a <code>&lt;b-*&gt;</code> tag into any page — or any framework — and it works.
+        </p>
+        <ul class="ui-list">
+          <li><strong>67 components</strong> — inputs, tables and data grids, charts, JSON and XML diff, kanban,
+            modals, drawers, a command palette and an Office-style ribbon</li>
+          <li><strong>A three-level app shell</strong> — layout, sidebars, ribbon, notifications and a tenant
+            switcher; extend a class, implement a few methods</li>
+          <li><strong>A mini-framework</strong> — reactive signals, a router, HTTP and SSE clients, i18n, IndexedDB
+            storage</li>
+          <li><strong>Accessible by default</strong> — form controls take part in a native <code>&lt;form&gt;</code>, and
+            names, keyboard use and focus are checked in Chromium, Firefox and WebKit</li>
+        </ul>
+        <div class="code-wrap ui-code"><pre><span class="c-key">import</span> { <span class="c-type">BaseComponent</span>, define } <span class="c-key">from</span> <span class="c-str">&#x27;birko-web-core&#x27;</span>;
+
+<span class="c-key">export</span> <span class="c-key">class</span> <span class="c-type">MyWidget</span> extends <span class="c-type">BaseComponent</span> {
+  <span class="c-key">private</span> _count = <span class="c-num">0</span>;
+
+  render() {
+    <span class="c-key">return</span> `&lt;p&gt;Count: ${<span class="c-key">this</span>._count}&lt;/p&gt;
+      &lt;b-button id=<span class="c-str">&quot;inc&quot;</span> variant=<span class="c-str">&quot;primary&quot;</span>&gt;+<span class="c-num">1</span>&lt;/b-button&gt;`;
+  }
+
+  <span class="c-key">protected</span> onMount() {
+    <span class="c-key">this</span>.$(<span class="c-str">&#x27;#inc&#x27;</span>)?.addEventListener(<span class="c-str">&#x27;click&#x27;</span>, () =&gt; {
+      <span class="c-key">this</span>._count++;
+      <span class="c-key">this</span>.update();
+    });
+  }
+}
+define(<span class="c-str">&#x27;my-widget&#x27;</span>, <span class="c-type">MyWidget</span>);</pre></div>
+        <div class="ui-links">
+          <a class="btn btn-primary" href="https://birko-framework.github.io/Birko.Web.Playground/">Open the live gallery <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-ghost" href="https://github.com/Birko-Framework/Birko.Web">Source</a>
+          <a class="btn btn-ghost" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Web-UI">Guide</a>
+        </div>
+      </article>
+
+      <article class="ui-card">
+        <div class="ui-head">
+          <h3>Birko.Xaml</h3>
+          <span class="ui-tag">C# · Avalonia · .NET 8</span>
+        </div>
+        <p class="ui-lede">
+          The same design system for desktop apps on Avalonia, which runs on Windows, macOS and Linux. Its MVVM core has no
+          Avalonia dependency, so view models are plain, testable C#.
+        </p>
+        <ul class="ui-list">
+          <li><strong>Four themes</strong> — Light, Dark, Neon and Finstat, switched at runtime with no restart</li>
+          <li><strong>The web's controls, on the desktop</strong> — ribbon, JSON diff viewer, tag input, kanban,
+            charts, Markdown editor, object and XML trees, modals and a command palette</li>
+          <li><strong>App shells</strong> — sidebar, ribbon and mobile shells, with list, detail and split page views
+            bound to <code>Birko.Xaml.Core</code> view models</li>
+          <li><strong>Shared behaviour</strong> — the JSON / XML diff engine runs the same test vectors as the web
+            one, so both answer alike</li>
+        </ul>
+        <div class="code-wrap ui-code"><pre><span class="c-cm">&lt;!-- App.axaml: the tokens and restyled controls --&gt;</span>
+&lt;<span class="c-type">Application</span>.Resources&gt;
+  &lt;ResourceInclude <span class="c-type">Source</span>=
+    <span class="c-str">&quot;avares://Birko.Xaml.Avalonia/BirkoTheme.Core.axaml&quot;</span> /&gt;
+&lt;/<span class="c-type">Application</span>.Resources&gt;
+
+&lt;Border <span class="c-type">Background</span>=<span class="c-str">&quot;{DynamicResource BColorPrimaryBrush}&quot;</span>
+        <span class="c-type">CornerRadius</span>=<span class="c-str">&quot;{DynamicResource BRadius}&quot;</span> /&gt;</pre><pre class="ui-pre-2"><span class="c-type">IThemeManager</span> themes = <span class="c-key">new</span> <span class="c-type">AvaloniaThemeManager</span>();
+themes.SetTheme(<span class="c-str">&quot;dark&quot;</span>);   <span class="c-cm">// live, no restart</span></pre></div>
+        <div class="ui-links">
+          <a class="btn btn-primary" href="https://github.com/Birko-Framework/Birko.Xaml.Gallery">See the gallery app <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-ghost" href="https://github.com/Birko-Framework/Birko.Framework/tree/main/Birko.Xaml.Avalonia">Source</a>
+          <a class="btn btn-ghost" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Desktop-XAML">Guide</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="ui-tokens" aria-label="How the design tokens flow">
+      <span class="ui-node"><code>Birko.DesignTokens/tokens.json</code></span>
+      <span class="ui-arrow" aria-hidden="true">→</span>
+      <span class="ui-node"><code>tokens.css</code> + 5 web themes</span>
+      <span class="ui-plus" aria-hidden="true">+</span>
+      <span class="ui-node"><code>Tokens.*.axaml</code> + 4 desktop themes</span>
+      <span class="ui-note">A CI gate fails the build if a generated file is edited by hand.</span>
+    </div>
   </div>
 </section>
 
