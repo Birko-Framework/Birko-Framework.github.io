@@ -292,6 +292,9 @@ a.card:hover { text-decoration: none; color: inherit; border-color: var(--b-colo
 .ui-code pre { font-size: 0.8125rem; padding: var(--b-space-lg); }
 .ui-code .ui-pre-2 { border-top: 1px solid rgba(255,255,255,0.08); }
 .ui-links { display: flex; flex-wrap: wrap; gap: var(--b-space-sm); margin-top: auto; }
+.ui-shot { display: block; border: 1px solid var(--b-border); border-radius: var(--b-radius); overflow: hidden; box-shadow: var(--b-shadow-sm); }
+.ui-shot img { display: block; width: 100%; height: auto; }
+.ui-dl { margin: calc(-1 * var(--b-space-sm)) 0 0; font-size: 0.8125rem; color: var(--b-text-muted); }
 .ui-tokens {
   margin-top: var(--b-space-2xl); display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
   gap: var(--b-space-sm) var(--b-space-md); font-size: 0.9375rem; color: var(--b-text-secondary);
@@ -936,6 +939,10 @@ define(<span class="c-str">&#x27;my-widget&#x27;</span>, <span class="c-type">My
           <li><strong>Shared behaviour</strong> — the JSON / XML diff engine runs the same test vectors as the web
             one, so both answer alike</li>
         </ul>
+        <a class="ui-shot" href="https://github.com/Birko-Framework/Birko.Xaml.Gallery/releases/latest">
+          <img src="https://github.com/Birko-Framework/Birko.Xaml.Gallery/releases/latest/download/gallery-light-controls.png" width="1280" height="820" loading="lazy"
+               alt="The Birko.Xaml gallery app: a ribbon header and cards of live controls, light theme">
+        </a>
         <div class="code-wrap ui-code"><pre><span class="c-cm">&lt;!-- App.axaml: the tokens and restyled controls --&gt;</span>
 &lt;<span class="c-type">Application</span>.Resources&gt;
   &lt;ResourceInclude <span class="c-type">Source</span>=
@@ -946,10 +953,17 @@ define(<span class="c-str">&#x27;my-widget&#x27;</span>, <span class="c-type">My
         <span class="c-type">CornerRadius</span>=<span class="c-str">&quot;{DynamicResource BRadius}&quot;</span> /&gt;</pre><pre class="ui-pre-2"><span class="c-type">IThemeManager</span> themes = <span class="c-key">new</span> <span class="c-type">AvaloniaThemeManager</span>();
 themes.SetTheme(<span class="c-str">&quot;dark&quot;</span>);   <span class="c-cm">// live, no restart</span></pre></div>
         <div class="ui-links">
-          <a class="btn btn-primary" href="https://github.com/Birko-Framework/Birko.Xaml.Gallery">See the gallery app <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-primary" href="https://github.com/Birko-Framework/Birko.Xaml.Gallery/releases/latest">Download the gallery app <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a class="btn btn-ghost" href="https://github.com/Birko-Framework/Birko.Framework/tree/main/Birko.Xaml.Avalonia">Source</a>
           <a class="btn btn-ghost" href="https://github.com/Birko-Framework/Birko.Framework/wiki/Desktop-XAML">Guide</a>
         </div>
+        <p class="ui-dl">
+          Windows <a href="https://github.com/Birko-Framework/Birko.Xaml.Gallery/releases/latest/download/Birko.Xaml.Gallery-win-x64.zip">x64 .zip</a> ·
+          Linux <a href="https://github.com/Birko-Framework/Birko.Xaml.Gallery/releases/latest/download/Birko.Xaml.Gallery-linux-x64.tar.gz">x64 .tar.gz</a> ·
+          macOS <a href="https://github.com/Birko-Framework/Birko.Xaml.Gallery/releases/latest/download/Birko.Xaml.Gallery-osx-arm64.zip">Apple Silicon .zip</a> —
+          built on every change, no .NET install needed, not code-signed
+          (<a href="https://github.com/Birko-Framework/Birko.Xaml.Gallery#download">how to open</a>).
+        </p>
       </article>
     </div>
 
@@ -1071,6 +1085,10 @@ themes.SetTheme(<span class="c-str">&quot;dark&quot;</span>);   <span class="c-c
       <a class="repo" href="https://birko-framework.github.io/Birko.Web.Playground/">
         <span class="nm">Birko.Web.Playground <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
         <p>Live component gallery — the whole <code>b-*</code> library running in your browser, with a design-token editor and theme export. Nothing to install.</p>
+      </a>
+      <a class="repo" href="https://github.com/Birko-Framework/Birko.Xaml.Gallery/releases/latest">
+        <span class="nm">Birko.Xaml.Gallery <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        <p>The desktop gallery — every Birko.Xaml control in four themes, with a download for Windows, Linux and macOS, rebuilt on every change.</p>
       </a>
       <a class="repo" href="https://github.com/Birko-Framework/Birko.Sandbox">
         <span class="nm">Birko.Sandbox <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
